@@ -12,6 +12,7 @@ function GetLimits(path){
 
 function IsFormatOk(path){
   const src = fs.createReadStream(path);
+  
 }
 
 

@@ -12,9 +12,6 @@ function GetLimits(path){
 
 function IsFormatOk(path){
   const src = fs.createReadStream(path);
-  var limitProcessor = new LimitProcessor(src, (result) => {
-    console.log(true);
-  })
 }
 
 

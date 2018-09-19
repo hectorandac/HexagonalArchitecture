@@ -2,24 +2,28 @@
 const program = require('commander');
 const fs = require('fs');
 const LimitProcessor = require('./models/LimitProcessor');
+const StringProcessor = require('./models/StringProcessor');
 
-function GetLimits(path){
+function GetLimits(path) {
   const src = fs.createReadStream(path);
-  var limitProcessor = new LimitProcessor(src, (result) => {
-    console.log(result);
-  })
+  let stringProcessor = new StringProcessor(src);
+  let jsonValue = stringProcessor.getValues( (value) => {
+    let limitProcessor = new LimitProcessor(value, (result) => {
+      console.log(result);
+    })
+  });
 }
 
-function IsFormatOk(path){
+function IsFormatOk(path) {
   const src = fs.createReadStream(path);
-  
+
 }
 
 
 program
   .version('1.0.0')
   .option('-a, --author', 'Print authors')
-  .option('-f, --file <string>', 'Set file path' )
+  .option('-f, --file <string>', 'Set file path')
   .option('-c, --check <string>', 'Cheks the file format')
   .parse(process.argv);
 

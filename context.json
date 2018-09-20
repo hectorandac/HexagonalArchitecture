@@ -1,1 +1,17 @@
-{"age": {"type": "int", "min": 18, "max": 150}}
+{
+  "age":
+  {
+    "type": "int",
+    "min": 18,
+    "max": 150
+  },
+  "customerName":
+  {
+    "type":"string",
+    "min":4,
+    "max":10,
+    "nullable":false,
+    "alphabet":"qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM "
+  }
+
+}

@@ -16,11 +16,19 @@ module.exports = class LimitProcessor {
         let JSONContent = JSON.parse( this.content );
         let notValid = !LimitProcessor.formatCheck( JSONContent );
         if ( notValid ) { throw new Error( "The stream is not valid" ); }
+        let callBack = [];
+        for (let context in JSONContent){
+            let contextAttributes = JSONContent[context];
+            callBack.push({
+                'key': context,
+                'MaxMin': LimitProcessor.calcRangeMaxMin(contextAttributes['min'], contextAttributes['max'])
+            });
+            console.log(LimitProcessor.calcRangeMaxMin(contextAttributes['min'], contextAttributes['max']));
+        }
 
-        let context = Object.keys(JSONContent)[0];
-        let contextAttributes = JSONContent[context];
 
-        callback(LimitProcessor.calcRangeMaxMin(contextAttributes['min'], contextAttributes['max']));
+
+        callback(callBack);
 
       });
     }
@@ -67,5 +75,20 @@ module.exports = class LimitProcessor {
       'invalid':[min-1,max+1]
     };
     return dicValuesMax;
+  }
+  static processSringData(data, conditions){
+      if(data == null){
+          if(!conditions.nullable){
+              return "Invalid"
+          }
+      }else{
+          if (conditions.min > data.length){
+              return 'Invalid'
+          }if(conditions.max < data.length){
+              return 'Invalid'
+          }
+      }
+
+      return "Valid"
   }
 }

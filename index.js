@@ -1,5 +1,7 @@
 // Allow us to pass arguments from the console
 const program = require('commander');
+const express = require('express');
+const app = express();
 const fs = require('fs');
 const LimitProcessor = require('./models/IntProcessor');
 const StringProcessor = require('./models/StringProcessor');
@@ -19,6 +21,12 @@ function IsFormatOk(path) {
 
 }
 
+app.get('/',function (req, res) {
+    res.end('Hello Word!');
+})
+app.listen(3000,function () {
+    console.log('Escuchando')
+});
 
 program
   .version('1.0.0')

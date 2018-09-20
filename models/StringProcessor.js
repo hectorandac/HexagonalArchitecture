@@ -19,15 +19,28 @@ module.exports = class StringProcessor {
             }
 
             if (stringProcessor.jsonValue == null) {
-                stringProcessor.jsonValue = JSON.parse(value);
-                console.log("#######");
-                console.log(value);
-                
-                callback(stringProcessor.jsonValue)
+                let raw = JSON.parse(value);
+                let context = Object.keys(raw)[0];
+                stringProcessor.jsonValue = raw[context];
+                callback(stringProcessor.getByType(stringProcessor.type));
             } else {
-                callback(stringProcessor.jsonValue);
+                callback(stringProcessor.getByType(stringProcessor.type));
             }
         });
+    }
+
+    getByType(type) {
+        switch (this.type) {
+            case SupportedFormats.int:
+                return {
+                    min: this.jsonValue['min'],
+                    max: this.jsonValue['max']
+                }
+            case SupportedFormats.string:
+                break;
+            default:
+                break;
+        }
     }
 
     validatePresence() {
@@ -38,14 +51,14 @@ module.exports = class StringProcessor {
     }
 
     hasValue() {
-        return (this.content != null);
+        return (this.content != null && this.content != undefined);
     }
 
     getStream(callback) {
         if (!this.validatePresence) {
             throw new Error("The file path can not be empty or null.");
-        } else if (this.hasValue) {
-            callback(this.content)
+        } else if (this.hasValue()) {
+            callback(this.content);
         } else {
             this.asyncRead(this.stream, (streamContent) => {
                 this.content = streamContent;
@@ -67,10 +80,17 @@ module.exports = class StringProcessor {
     }
 
     formatCheck() {
+
         this.getStream((content) => {
-            if (isJson(content) == false) { return false; }
-            setType(JSON.parse(content));
-            if (requiredFields(content) == false) { return false; }
+            if (this.isJson(content) == false) {
+                return false;
+            }
+            let jsonValue = JSON.parse(content);
+            let context = Object.keys(jsonValue)[0];
+            this.setType(jsonValue[context]);
+            if (this.requiredFields(content) == false) {
+                return false;
+            }
         });
 
         return true;

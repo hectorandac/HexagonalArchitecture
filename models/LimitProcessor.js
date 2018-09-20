@@ -1,9 +1,10 @@
 module.exports = class LimitProcessor {
 
-  constructor( jsonString , callback ){
-    let min = jsonString['min'];
-    let max = jsonString['max'];
-    let result = LimitProcessor.calcRangeMaxMin(min, max); 
+  constructor( conformed , callback ){
+    console.log(conformed);
+    let min = conformed.min;
+    let max = conformed.max;
+    let result = this.calcRangeMaxMin(min, max); 
     callback(result);
   }
 

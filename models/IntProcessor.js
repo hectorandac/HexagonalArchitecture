@@ -1,4 +1,4 @@
-module.exports = class LimitProcessor {
+module.exports = class IntProcessor {
 
   constructor( conformed , callback ){
     console.log(conformed);

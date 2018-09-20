@@ -44,8 +44,8 @@ module.exports = class StringProcessor {
     }
 
     validatePresence() {
-        let streamNull = (stream == null);
-        let streamUndefined = (stream == undefined);
+        let streamNull = (this.stream == null);
+        let streamUndefined = (this.stream == undefined);
         let validStream = (!streamNull || !streamUndefined);
         return validStream;
     }
@@ -55,11 +55,13 @@ module.exports = class StringProcessor {
     }
 
     getStream(callback) {
+        console.log("Test");
         if (!this.validatePresence) {
-            throw new Error("The file path can not be empty or null.");
+            throw new Error("The stream can not be empty or null.");
         } else if (this.hasValue()) {
             callback(this.content);
         } else {
+            
             this.asyncRead(this.stream, (streamContent) => {
                 this.content = streamContent;
                 callback(this.content)

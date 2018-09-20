@@ -1,17 +1,17 @@
 // Allow us to pass arguments from the console
 const program = require('commander');
 const fs = require('fs');
-const LimitProcessor = require('./models/LimitProcessor');
+const LimitProcessor = require('./models/IntProcessor');
 const StringProcessor = require('./models/StringProcessor');
 
 function GetLimits(path) {
-  const src = fs.createReadStream(path);
-  let stringProcessor = new StringProcessor(src);
-  let jsonValue = stringProcessor.getValues( (value) => {
-    let limitProcessor = new LimitProcessor(value, (result) => {
-      console.log(result);
-    })
-  });
+    const src = fs.createReadStream(path);
+    let stringProcessor = new StringProcessor(src);
+    stringProcessor.getValues((value) => {
+      new LimitProcessor(value, (result) => {
+        console.log(result);
+      });
+    });
 }
 
 function IsFormatOk(path) {

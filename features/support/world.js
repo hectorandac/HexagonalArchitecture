@@ -33,16 +33,6 @@ class ValidatorProcessor {
     );
   }
 
-  isJson(callback){
-    var command = 'node . -c ' + save_state.path;
-    cmd.get(
-      command,
-      function(err, data, stderr){
-        callback(data ? data : stderr);
-      }
-    );
-  }
-
 }
 
 setWorldConstructor(ValidatorProcessor);

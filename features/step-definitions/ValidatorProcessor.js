@@ -13,7 +13,9 @@ Then('he will receive an error like {string}', function (string) {
 });
 
 Given('the format check gives {string}', function (string) {
-  
+  this.formatCheck(function(currentFormat){
+    expect(currentFormat.trim('\n')).to.equal(string);
+  });
 });
 
 Then('he will receive an error like {string} on Proccess', function (string) {

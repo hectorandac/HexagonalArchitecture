@@ -23,7 +23,7 @@ describe('#calcRangeMaxMin',()=>{
   });
 })
 
-
+/*
 describe('#constructorFunctionality', () => {
   it ( "Sendig stream to constructor", () => {
     let string = '{"age": {"type": "int", "min": 18, "max": 150}}';
@@ -35,7 +35,7 @@ describe('#constructorFunctionality', () => {
     })
   })
 });
-
+*/
 
 describe('#processSringData', () => {
     it("testing string data have min length",()=>{

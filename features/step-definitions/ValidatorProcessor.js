@@ -1,6 +1,6 @@
 const { Given, When, Then } = require('cucumber')
 const { expect } = require('chai');
-const LP = require('../../models/LimitProcessor.js');
+const LP = require('../../models/IntProcessor.js');
 
 
 Given('that the user types the name {string}', function (string) {

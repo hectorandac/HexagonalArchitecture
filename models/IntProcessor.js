@@ -2,9 +2,9 @@
 module.exports = class IntProcessor {
   constructor( conformed , callback ){
     console.log(conformed);
-    let min = conformed.min;
-    let max = conformed.max;
-    let result = this.calcRangeMaxMin(min, max);
+    var min = conformed.min;
+    var max = conformed.max;
+    var result = this.calcRangeMaxMin(min, max);
     callback(result);
 /*
     let callBack = [];
@@ -19,7 +19,8 @@ module.exports = class IntProcessor {
     callback(callBack);
 */
   }
-  static calcRangeMaxMin(min,max){
+  
+  calcRangeMaxMin(min,max){
     var dicValuesMax = {
       'valid':[min,max],
       'invalid':[min-1,max+1]
@@ -30,16 +31,16 @@ module.exports = class IntProcessor {
   static processSringData(data, conditions){
       if(data == null){
           if(!conditions.nullable){
-              return "Invalid"
+              return "Invalid";
           }
       }else{
           if (conditions.min > data.length){
-              return 'Invalid'
+              return 'Invalid';
           }if(conditions.max < data.length){
-              return 'Invalid'
+              return 'Invalid';
           }
       }
 
-      return "Valid"
+      return "Valid";
   }
-}
+};

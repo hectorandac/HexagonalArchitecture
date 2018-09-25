@@ -3,14 +3,14 @@ const program = require('commander');
 const express = require('express');
 const app = express();
 const fs = require('fs');
-const LimitProcessor = require('./models/IntProcessor');
-const StringProcessor = require('./models/StringProcessor');
+const IntProcessor = require('./models/IntProcessor');
+const StreamProcessor = require('./models/StreamProcessor');
 
 function GetLimits(path) {
     const src = fs.createReadStream(path);
-    let stringProcessor = new StringProcessor(src);
-    stringProcessor.getValues((value) => {
-      new LimitProcessor(value, (result) => {
+    let streamProcessor = new StreamProcessor(src);
+    streamProcessor.getValues((value) => {
+      new IntProcessor(value, (result) => {
         console.log(result);
       });
     });

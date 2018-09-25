@@ -4,7 +4,7 @@ var SupportedFormats = {
 };
 Object.freeze(SupportedFormats);
 
-module.exports = class StringProcessor {
+module.exports = class StreamProcessor {
 
     constructor(stream) {
         this.type = SupportedFormats.int;
@@ -12,19 +12,20 @@ module.exports = class StringProcessor {
     }
 
     getValues(callback) {
-        var stringProcessor = this;
+        var streamProcessor = this;
         this.getStream(function (value) {
-            if (stringProcessor.formatCheck() == false) {
+            if (streamProcessor.formatCheck() == false) {
                 throw new Error("The format is not correct, verify the json structure.");
             }
 
-            if (stringProcessor.jsonValue == null) {
+            if (streamProcessor.jsonValue == null) {
                 var raw = JSON.parse(value);
                 var context = Object.keys(raw)[0];
-                stringProcessor.jsonValue = raw[context];
-                callback(stringProcessor.getByType(stringProcessor.type));
+                streamProcessor.id = context;
+                streamProcessor.jsonValue = raw[context];
+                callback(streamProcessor.getByType(streamProcessor.type));
             } else {
-                callback(stringProcessor.getByType(stringProcessor.type));
+                callback(streamProcessor.getByType(streamProcessor.type));
             }
         });
     }
@@ -33,6 +34,7 @@ module.exports = class StringProcessor {
         switch (this.type) {
             case SupportedFormats.int:
                 return {
+                    id: this.id,
                     type: this.jsonValue.type,
                     min: this.jsonValue.min,
                     max: this.jsonValue.max

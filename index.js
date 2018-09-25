@@ -19,7 +19,7 @@ function StartServer() {
   });
 
   app.listen(port, function () {
-    console.log('Escuchando en: 0.0.0.0' + port);
+    console.log('Escuchando en: 0.0.0.0:' + port);
   });
 }
 

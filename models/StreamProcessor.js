@@ -1,6 +1,6 @@
 var SupportedFormats = {
     int: ["type", "min", "max"],
-    string: ["type", "minLength", "maxLength", "nullable", "alphabet"]
+    string: ["type", "min", "max", "nullable", "alphabet"]
 };
 Object.freeze(SupportedFormats);
 
@@ -28,18 +28,20 @@ module.exports = class StreamProcessor {
     getValues(position, callback) {
         var streamProcessor = this;
         this.getStream(function (value) {
-            if (streamProcessor.formatCheck() == false) {
-                throw new Error("The format is not correct, verify the json structure.");
-            }
-            var raw = JSON.parse(value);
-            var context = Object.keys(raw)[position];
-            streamProcessor.id = context;
-            streamProcessor.jsonValue = raw[context];
-            callback(streamProcessor.getByType(streamProcessor.type));
+            streamProcessor.formatCheck(position, function (isOk) {
+                if (!isOk) {
+                    throw new Error("The format is not correct, verify the json structure.");
+                }
+                var raw = JSON.parse(value);
+                var context = Object.keys(raw)[position];
+                streamProcessor.id = context;
+                streamProcessor.jsonValue = raw[context];
+                callback(streamProcessor.getByType(streamProcessor.type));
+            });
         });
     }
 
-    getByType(type) {
+    getByType() {
         switch (this.type) {
             case SupportedFormats.int:
                 return {
@@ -49,7 +51,14 @@ module.exports = class StreamProcessor {
                     max: this.jsonValue.max
                 };
             case SupportedFormats.string:
-                break;
+                return {
+                    id: this.id,
+                    type: this.jsonValue.type,
+                    min: this.jsonValue.min,
+                    max: this.jsonValue.max,
+                    nullable: this.jsonValue.nullable,
+                    alphabet: this.jsonValue.alphabet
+                };
             default:
                 break;
         }
@@ -93,21 +102,21 @@ module.exports = class StreamProcessor {
         });
     }
 
-    formatCheck() {
+    formatCheck(position, callback) {
         var streamObject = this;
         this.getStream(function (content) {
             if (streamObject.isJson(content) == false) {
-                return false;
+                callback(false);
             }
             var jsonValue = JSON.parse(content);
-            var context = Object.keys(jsonValue)[0];
+            var context = Object.keys(jsonValue)[position];
             streamObject.setType(jsonValue[context]);
-            if (streamObject.requiredFields(content) == false) {
-                return false;
+            if (streamObject.requiredFields(jsonValue, position) == false) {
+                callback(false);
+            } else {
+                callback(true);
             }
         });
-
-        return true;
     }
 
     setType(contentJson) {
@@ -124,8 +133,8 @@ module.exports = class StreamProcessor {
 
     }
 
-    requiredFields(content) {
-        var context = Object.keys(content)[0];
+    requiredFields(content, position) {
+        var context = Object.keys(content)[position];
 
         var contextAttributes = Object.keys(content[context]);
         var allowAttr = this.type;
@@ -136,6 +145,7 @@ module.exports = class StreamProcessor {
                 return false;
             }
         }
+        return true;
     }
 
     isJson(content) {

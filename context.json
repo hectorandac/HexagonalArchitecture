@@ -13,7 +13,7 @@
     "nullable":false,
     "alphabet":"qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM"
   },
-  "customerName2":
+  "customerNickName":
   {
     "type":"string",
     "min":4,

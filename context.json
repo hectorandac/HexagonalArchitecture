@@ -12,6 +12,14 @@
     "max":10,
     "nullable":false,
     "alphabet":"qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM"
+  },
+  "customerName2":
+  {
+    "type":"string",
+    "min":4,
+    "max":10,
+    "nullable":false,
+    "alphabet":"qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM"
   }
 
 }

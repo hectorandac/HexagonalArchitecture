@@ -11,22 +11,31 @@ module.exports = class StreamProcessor {
         this.stream = stream;
     }
 
-    getValues(callback) {
+    entryCount(callback) {
+        var streamProcessor = this;
+        if (this.sizeCount == null) {
+            this.getStream(function (value) {
+                var raw = JSON.parse(value);
+                var size = Object.keys(raw).length;
+                streamProcessor.sizeCount = size;
+                callback(size);
+            });
+        } else {
+            callback(this.sizeCount);
+        }
+    }
+
+    getValues(position, callback) {
         var streamProcessor = this;
         this.getStream(function (value) {
             if (streamProcessor.formatCheck() == false) {
                 throw new Error("The format is not correct, verify the json structure.");
             }
-
-            if (streamProcessor.jsonValue == null) {
-                var raw = JSON.parse(value);
-                var context = Object.keys(raw)[0];
-                streamProcessor.id = context;
-                streamProcessor.jsonValue = raw[context];
-                callback(streamProcessor.getByType(streamProcessor.type));
-            } else {
-                callback(streamProcessor.getByType(streamProcessor.type));
-            }
+            var raw = JSON.parse(value);
+            var context = Object.keys(raw)[position];
+            streamProcessor.id = context;
+            streamProcessor.jsonValue = raw[context];
+            callback(streamProcessor.getByType(streamProcessor.type));
         });
     }
 
@@ -64,8 +73,8 @@ module.exports = class StreamProcessor {
         } else if (this.hasValue()) {
             callback(this.content);
         } else {
-            
-            this.asyncRead(this.stream, function(streamContent) {
+
+            this.asyncRead(this.stream, function (streamContent) {
                 streamObject.content = streamContent;
                 callback(streamObject.content);
             });
@@ -86,7 +95,7 @@ module.exports = class StreamProcessor {
 
     formatCheck() {
         var streamObject = this;
-        this.getStream( function(content) {
+        this.getStream(function (content) {
             if (streamObject.isJson(content) == false) {
                 return false;
             }

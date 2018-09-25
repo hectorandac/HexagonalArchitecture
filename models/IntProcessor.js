@@ -8,8 +8,8 @@ module.exports = class IntProcessor {
   
   static calcRangeMaxMin(min,max){
     var dicValuesMax = {
-      'valid':[min,max],
-      'invalid':[min-1,max+1]
+      'Valid':[min,max],
+      'Invalid':[min-1,max+1]
     };
     return dicValuesMax;
   }

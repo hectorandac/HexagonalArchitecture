@@ -8,7 +8,7 @@ var LimitAnalizer = require('./models/LimitiAnalizer');
 function GetLimits(path) {
   var src = fs.createReadStream(path);
   LimitAnalizer.GetLimits(src, function(result){
-    console.log(result.id + ": " + result.value);
+    console.log(result);
   });
 }
 

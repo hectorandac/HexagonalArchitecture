@@ -11,7 +11,7 @@
     "min":4,
     "max":10,
     "nullable":false,
-    "alphabet":"qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM "
+    "alphabet":"qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM"
   }
 
 }

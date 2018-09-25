@@ -4,28 +4,38 @@ var SupportedFormats = {
 };
 Object.freeze(SupportedFormats);
 
-module.exports = class StringProcessor {
+module.exports = class StreamProcessor {
 
     constructor(stream) {
         this.type = SupportedFormats.int;
         this.stream = stream;
     }
 
-    getValues(callback) {
-        var stringProcessor = this;
+    entryCount(callback) {
+        var streamProcessor = this;
+        if (this.sizeCount == null) {
+            this.getStream(function (value) {
+                var raw = JSON.parse(value);
+                var size = Object.keys(raw).length;
+                streamProcessor.sizeCount = size;
+                callback(size);
+            });
+        } else {
+            callback(this.sizeCount);
+        }
+    }
+
+    getValues(position, callback) {
+        var streamProcessor = this;
         this.getStream(function (value) {
-            if (stringProcessor.formatCheck() == false) {
+            if (streamProcessor.formatCheck() == false) {
                 throw new Error("The format is not correct, verify the json structure.");
             }
-
-            if (stringProcessor.jsonValue == null) {
-                var raw = JSON.parse(value);
-                var context = Object.keys(raw)[0];
-                stringProcessor.jsonValue = raw[context];
-                callback(stringProcessor.getByType(stringProcessor.type));
-            } else {
-                callback(stringProcessor.getByType(stringProcessor.type));
-            }
+            var raw = JSON.parse(value);
+            var context = Object.keys(raw)[position];
+            streamProcessor.id = context;
+            streamProcessor.jsonValue = raw[context];
+            callback(streamProcessor.getByType(streamProcessor.type));
         });
     }
 
@@ -33,6 +43,7 @@ module.exports = class StringProcessor {
         switch (this.type) {
             case SupportedFormats.int:
                 return {
+                    id: this.id,
                     type: this.jsonValue.type,
                     min: this.jsonValue.min,
                     max: this.jsonValue.max
@@ -62,8 +73,8 @@ module.exports = class StringProcessor {
         } else if (this.hasValue()) {
             callback(this.content);
         } else {
-            
-            this.asyncRead(this.stream, function(streamContent) {
+
+            this.asyncRead(this.stream, function (streamContent) {
                 streamObject.content = streamContent;
                 callback(streamObject.content);
             });
@@ -84,7 +95,7 @@ module.exports = class StringProcessor {
 
     formatCheck() {
         var streamObject = this;
-        this.getStream( function(content) {
+        this.getStream(function (content) {
             if (streamObject.isJson(content) == false) {
                 return false;
             }

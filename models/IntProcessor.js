@@ -2,7 +2,7 @@ module.exports = class IntProcessor {
   constructor( conformed , callback ){
     var min = conformed.min;
     var max = conformed.max;
-    var result = IntProcessor.calcRangeMaxMin(min, max);
+    var result = IntProcessorc.calcRangeMaxMin(min, max);
     callback(result);
   }
   

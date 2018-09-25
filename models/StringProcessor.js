@@ -2,8 +2,8 @@ module.exports = class StringProcessor {
 
     constructor( conformed , callback ){
         var result = {
-          "Valid":[],
-          "Invalid":[]
+          "Valid":[StringProcessor.stringGenerator(conformed.alphabet,Math.random(conformed.min,conformed.max)),StringProcessor.stringGenerator(conformed.alphabet,Math.random(conformed.min,conformed.max))],
+          "Invalid":[StringProcessor.stringGenerator(conformed.alphabet,Math.random(conformed.max+1,conformed.max+2)),StringProcessor.stringGenerator(conformed.alphabet,Math.random(conformed.min,conformed.max))]
         };
 
         callback(result);
@@ -28,8 +28,8 @@ module.exports = class StringProcessor {
 
     static stringGenerator(alphabet, length){
         var res = "";
-        for(var i = 1;i < length; i++){
-            res += alphabet.chartAt(Math.floor(Math.random() * alphabet));
+        for(var i = 0;i < length; i++){
+            res += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
         };
         return res
     }

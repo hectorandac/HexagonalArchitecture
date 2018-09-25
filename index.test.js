@@ -3,7 +3,8 @@ const Readable = require('stream').Readable
 should =  require('chai').should()
 _ = require('lodash')
 
-const LimitProcessor = require('./models/LimitProcessor')
+const IntProcessor = require('./models/IntProcessor')
+const StringProcesor = require('./models/StringProcessor')
 
 
 describe('#calcRangeMaxMin',()=>{
@@ -13,12 +14,12 @@ describe('#calcRangeMaxMin',()=>{
       'invalid':[ 17, 151 ]
     };
 
-    limit_processor = LimitProcessor.calcRangeMaxMin(18,150);
+    var ObjProcesor = IntProcessor.calcRangeMaxMin(18,150);
 
-    limit_processor.valid[0].should.be.equal(res.valid[0]);
-    limit_processor.valid[1].should.be.equal(res.valid[1]);
-    limit_processor.invalid[0].should.be.equal(res.invalid[0]);
-    limit_processor.invalid[1].should.be.equal(res.invalid[1]);
+    ObjProcesor.valid[0].should.be.equal(res.valid[0]);
+    ObjProcesor.valid[1].should.be.equal(res.valid[1]);
+    ObjProcesor.invalid[0].should.be.equal(res.invalid[0]);
+    ObjProcesor.invalid[1].should.be.equal(res.invalid[1]);
 
   });
 })
@@ -39,7 +40,7 @@ describe('#constructorFunctionality', () => {
 
 describe('#processSringData', () => {
     it("testing string data have min length",()=>{
-        let res = LimitProcessor.processSringData('Raul', {
+        let res = StringProcesor.processSringData('Raul', {
             type:"string",
             min:4,
             max:10,
@@ -49,7 +50,7 @@ describe('#processSringData', () => {
         res.should.be.equal('Valid');
     });
     it("testing string data no have min length",()=>{
-        let res = LimitProcessor.processSringData('Ron', {
+        let res = StringProcesor.processSringData('Ron', {
             type:"string",
             min:4,
             max:10,
@@ -59,7 +60,7 @@ describe('#processSringData', () => {
         res.should.be.equal('Invalid');
     });
     it("testing string data have max length",()=>{
-        let res = LimitProcessor.processSringData('Altagracia', {
+        let res = StringProcesor.processSringData('Altagracia', {
             type:"string",
             min:4,
             max:10,
@@ -69,7 +70,7 @@ describe('#processSringData', () => {
         res.should.be.equal('Valid');
     });
     it("testing string process data no have max length",()=>{
-        let res = LimitProcessor.processSringData('Altagracias', {
+        let res = StringProcesor.processSringData('Altagracias', {
             type:"string",
             min:4,
             max:10,
@@ -79,7 +80,7 @@ describe('#processSringData', () => {
         res.should.be.equal('Invalid');
     });
     it("testing string process data is null but nulllable True",()=>{
-        let res = LimitProcessor.processSringData(null, {
+        let res = StringProcesor.processSringData(null, {
             type:"string",
             min:4,
             max:10,
@@ -89,7 +90,7 @@ describe('#processSringData', () => {
         res.should.be.equal('Valid');
     });
     it("testing string process data is null but nulllable False",()=>{
-        let res = LimitProcessor.processSringData(null, {
+        let res = StringProcesor.processSringData(null, {
             type:"string",
             min:4,
             max:10,
@@ -100,6 +101,19 @@ describe('#processSringData', () => {
     });
 });
 
+/*
+describe('#stringGenerator', () => {
+    it("test string generetor alphabet ABC and lenght 3",()=>{
+        let res = StringProcesor.stringGenerator('ab',2);
+
+        res.should.be.incu(["aa","ab", "ba", "bb"])
+
+
+
+
+    });
+});
+*/
 /*describe('#Inputs file',()=>{
 it("input is blank return The file path can not be empty or null",()=>{
 expect(function(){ new LimitProcessor('') }).throw('The file path can not be empty or null')

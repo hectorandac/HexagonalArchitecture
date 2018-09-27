@@ -10,16 +10,16 @@ const StringProcesor = require('./models/StringProcessor')
 describe('#calcRangeMaxMin',()=>{
   it("input min=18 max=150 and return {valid: [18,150], invalid:[17,18]}",()=>{
     let res = {
-      'valid':[ 18, 150 ],
-      'invalid':[ 17, 151 ]
+      'Valid':[ 18, 150 ],
+      'Invalid':[ 17, 151 ]
     };
 
     var ObjProcesor = IntProcessor.calcRangeMaxMin(18,150);
 
-    ObjProcesor.valid[0].should.be.equal(res.valid[0]);
-    ObjProcesor.valid[1].should.be.equal(res.valid[1]);
-    ObjProcesor.invalid[0].should.be.equal(res.invalid[0]);
-    ObjProcesor.invalid[1].should.be.equal(res.invalid[1]);
+    ObjProcesor.Valid[0].should.be.equal(res.Valid[0]);
+    ObjProcesor.Valid[1].should.be.equal(res.Valid[1]);
+    ObjProcesor.Invalid[0].should.be.equal(res.Invalid[0]);
+    ObjProcesor.Invalid[1].should.be.equal(res.Invalid[1]);
 
   });
 })
@@ -99,21 +99,29 @@ describe('#processSringData', () => {
         });
         res.should.be.equal('Invalid');
     });
+    it("testing string process data is data have letter in alphabet",()=>{
+        let res = StringProcesor.processSringData('data', {
+            type:"string",
+            min:4,
+            max:10,
+            nullable:false,
+            alphabet:"abc"
+        });
+        res.should.be.equal('Invalid');
+    });
 });
 
-/*
 describe('#stringGenerator', () => {
-    it("test string generetor alphabet ABC and lenght 3",()=>{
+    it("test string generetor alphabet ABC and lenght d3",()=>{
         let res = StringProcesor.stringGenerator('ab',2);
 
-        res.should.be.incu(["aa","ab", "ba", "bb"])
-
-
+        ["aa","ab", "ba", "bb"].includes(res).should.be.true
 
 
     });
 });
-*/
+
+
 /*describe('#Inputs file',()=>{
 it("input is blank return The file path can not be empty or null",()=>{
 expect(function(){ new LimitProcessor('') }).throw('The file path can not be empty or null')

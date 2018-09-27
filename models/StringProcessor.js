@@ -2,28 +2,23 @@ module.exports = class StringProcessor {
 
     constructor(conformed, callback) {
         var result = {
-            "Valid": [
-                StringProcessor.stringGenerator(
-                    conformed.alphabet,
-                    Math.floor((Math.random() * conformed.max) + conformed.min)
-                ),
-                StringProcessor.stringGenerator(
-                    conformed.alphabet,
-                    Math.floor((Math.random() * conformed.max) + conformed.min)
-                )
-            ],
-            "Invalid": 
-            [
-                StringProcessor.stringGenerator(
-                    conformed.alphabet,
-                    Math.floor((Math.random() * conformed.max + 2) + conformed.max + 1)
-                ),
-                StringProcessor.stringGenerator(
-                    conformed.alphabet,
-                    Math.floor((Math.random() * conformed.max + 2) + conformed.max + 1)
-                )
-            ]
+            "Valid": [],
+            "Invalid": []
         };
+
+        while (result.Valid.length < 2 && result.Invalid.length < 2){
+            var data = StringProcessor.stringGenerator(
+                conformed.alphabet,
+                Math.floor((Math.random() * conformed.max + 2) + conformed.max + 1)
+            )
+            if (StringProcessor.processSringData(data,conformed) == 'Valid'){
+                result.Valid.append(data)
+            }else{
+                result.Invalid.append(data)
+            }
+        }
+
+
         callback(result);
     }
 
@@ -38,6 +33,13 @@ module.exports = class StringProcessor {
             }
             if (conditions.max < data.length) {
                 return 'Invalid';
+            }
+            var alphabet = conditions.alphabet.split("");
+            var datasplit =  data.split("");
+            for (var i = 0; i < data.length; i++) {
+                if (!alphabet.includes(datasplit[i])){
+                    return "Invalid";
+                }
             }
         }
 

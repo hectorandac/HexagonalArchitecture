@@ -122,6 +122,65 @@ describe('#stringGenerator', () => {
 });
 
 
+describe('#stringGenerateVanvalid', () => {
+    var conditions = {
+        "type":"string",
+        "min":4,
+        "max":10,
+        "nullable":true,
+        "alphabet":"qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM"
+    };
+    var res = StringProcesor.getValids(conditions);
+
+    it("Test wen in conditions nullable is True",()=>{
+        res.includes(null).should.be.true
+    });
+
+    it("test case 2 have min leght",()=>{
+
+        (res[1].length).should.be.equal(conditions.min)
+    });
+
+    it("test case 3 have max leght",()=>{
+
+        (res[2].length).should.be.equal(conditions.max)
+    });
+
+    it("test case 4 have media legth",()=>{
+        var medium = Math.round(((conditions.max - conditions.min) / 2) + conditions.min);
+
+        (res[3].length).should.be.equal(medium)
+    });
+
+});
+
+describe('#stringGenerateInvalids', () => {
+    var conditions = {
+        "type":"string",
+        "min":4,
+        "max":10,
+        "nullable":false,
+        "alphabet":"qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM"
+    };
+    var res = StringProcesor.getInvalids(conditions);
+
+    it("Test wen in conditions nullable is False",()=>{
+        res.includes(null).should.be.true
+    });
+
+    it("test case 2 have min leght - 1",()=>{
+
+        (res[1].length).should.be.equal(conditions.min-1)
+    });
+
+    it("test case 3 have max leght + 1",()=>{
+
+        (res[2].length).should.be.equal(conditions.max+1)
+    });
+
+});
+
+
 /*describe('#Inputs file',()=>{
 it("input is blank return The file path can not be empty or null",()=>{
 expect(function(){ new LimitProcessor('') }).throw('The file path can not be empty or null')

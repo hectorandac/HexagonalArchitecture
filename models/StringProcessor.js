@@ -5,19 +5,7 @@ module.exports = class StringProcessor {
             "Valid": [],
             "Invalid": []
         };
-
-        while (result.Valid.length < 2 && result.Invalid.length < 2){
-            var data = StringProcessor.stringGenerator(
-                conformed.alphabet,
-                Math.floor((Math.random() * conformed.max + 2) + conformed.max + 1)
-            )
-            if (StringProcessor.processSringData(data,conformed) == 'Valid'){
-                result.Valid.append(data)
-            }else{
-                result.Invalid.append(data)
-            }
-        }
-
+        
 
         callback(result);
     }
@@ -47,12 +35,12 @@ module.exports = class StringProcessor {
 
     }
 
-    static stringGenerator(alphabet, length) {
-        var res = "";
-        for (var i = 0; i < length; i++) {
-            res += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-        };
-        return res
+    static stringGenerator(alphabet, length, valid) {
+        if (valid) {
+            var desiredLength = 2;
+        } else {
+
+        }
     }
 
 };

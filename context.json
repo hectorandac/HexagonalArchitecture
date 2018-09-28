@@ -5,6 +5,12 @@
     "min": 18,
     "max": 150
   },
+  "amount":
+  {
+    "type": "int",
+    "min": 35,
+    "max": 67
+  },
   "customerName":
   {
     "type":"string",

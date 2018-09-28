@@ -5,9 +5,6 @@ module.exports = class StringProcessor {
             "Valid": StringProcessor.getValids(conformed),
             "Invalid": StringProcessor.getInvalids(conformed)
         };
-<<<<<<< HEAD
-        
-=======
 
         callback(result);
     }
@@ -36,7 +33,6 @@ module.exports = class StringProcessor {
         if(conditions.max > 0){
             res.push(this.stringGenerator(conditions.alphabet,conditions.max));
         }
->>>>>>> b1a33e1c30a36bb24e267d01c291218fde4a23d3
 
         //add medium
         var medium = Math.round(((conditions.max - conditions.min) / 2) + conditions.min);
@@ -101,15 +97,4 @@ module.exports = class StringProcessor {
 
     }
 
-<<<<<<< HEAD
-    static stringGenerator(alphabet, length, valid) {
-        if (valid) {
-            var desiredLength = 2;
-        } else {
-
-        }
-    }
-
-=======
->>>>>>> b1a33e1c30a36bb24e267d01c291218fde4a23d3
 };

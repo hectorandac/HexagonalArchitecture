@@ -61,15 +61,50 @@ module.exports = class StringProcessor {
         }
 
         //not have charter in alphabpet
-/*
-        if(conditions.max> 0){
-            res.push(this.stringGenerator(conditions.alphabet,conditions.max));
+
+        var NotPosibleChar = this.getChartNotInAlphabet(conditions.alphabet)
+
+        if (conditions.max > 0 && conditions.max != 1){
+            res.push(this.stringGenerator(conditions.alphabet,conditions.max - 1) + this.stringGenerator(NotPosibleChar,1));
         }
-*/
+
+        if (conditions.max == 1){
+            res.push(this.stringGenerator(NotPosibleChar,1));
+        }
+
+        if (conditions.min - 1 > 0 && conditions.min != 1){
+            res.push(this.stringGenerator(conditions.alphabet,conditions.min - 1) + this.stringGenerator(NotPosibleChar,1));
+        }
+
+        if(conditions.min == 1){
+            res.push(this.stringGenerator(NotPosibleChar,1));
+        }
+
+
+
+        /*
+                if(conditions.max > 0){
+                    res.push(this.stringGenerator(conditions.alphabet,conditions.max));
+                }
+        */
         return res
 
     }
 
+    static getChartNotInAlphabet(alphabet){
+        var indices = [];
+        for(var i=0; i<alphabet.length;i++) {
+            indices.push(alphabet.charCodeAt(i));
+        }
+        var NotPosibleChar = "";
+        for (var i=32; i<127; i++){
+            if(!indices.includes(i)){
+                NotPosibleChar = NotPosibleChar + String(String.fromCharCode(i));
+            }
+        }
+
+        return NotPosibleChar
+    }
 
 
     static processSringData(data, conditions) {

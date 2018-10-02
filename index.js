@@ -15,7 +15,14 @@ function GetLimits(path) {
 function StartServer() {
   var port = 3000;
   app.get('/', function (req, res) {
-    res.end('Hello Word!');
+    res.sendFile(__dirname + '/views/index.html');
+  });
+
+  app.post('/', function(req, res){
+    var s = req.pipe(through(write, end)).pipe(res);
+    s.on('finish', function() {
+       console.log('all writes are now complete.'); // printed the first time
+    });
   });
 
   app.listen(port, function () {

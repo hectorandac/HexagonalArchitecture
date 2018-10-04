@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <style>
+        #heading {
+            background-color: black;
+            height: 100px;
+        }
+
+        #heading h1 {
+            line-height: 100px;
+            text-align: center;
+            color: white;
+        }
+
+        #main_form {
+            margin-top: 30px;
+        }
+
+    </style>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <title>LimitProcessor</title>
+</head>
+
+<body>
+    <div id="heading">
+        <h1>LimitProcessor</h1>
+    </div>
+
+    <form id="main_form" class="container">
+        <div class="form-group">
+            <label for="json_context">
+                <h3>Json Context</h3>
+            </label>
+            <textarea class="form-control" rows="15" id="json_context"></textarea>
+        </div>
+        <button type="button" onclick="sendValue()" class="btn btn-primary">Submit</button>
+
+        <div style="margin-top: 30px;" id="container"></div>
+    </form>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.rawgit.com/caldwell/renderjson/master/renderjson.js"></script>
+</body>
+
+<script>
+
+    // Send the typed values to the server
+    function sendValue() {
+
+        $.ajax({
+            xhr: function () {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function (evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                    }
+                }, false);
+
+                return xhr;
+            },
+            type: 'POST',
+            url: "/processor",
+            dataType: 'json',
+            data: $('#json_context').val(),
+            success: function (data) {
+                document.getElementById("container").appendChild(renderjson(data));
+            }
+        });
+    }
+</script>
+
+</html>

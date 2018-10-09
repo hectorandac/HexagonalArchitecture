@@ -1,10 +1,10 @@
-expect = require('chai').expect
-const Readable = require('stream').Readable
-should =  require('chai').should()
-_ = require('lodash')
+expect = require('chai').expect;
+const Readable = require('stream').Readable;
+should =  require('chai').should();
+_ = require('lodash');
 
-const IntProcessor = require('./models/IntProcessor')
-const StringProcesor = require('./models/StringProcessor')
+const IntProcessor = require('./models/IntProcessor');
+const StringProcesor = require('./models/StringProcessor');
 
 
 describe('#calcRangeMaxMin',()=>{
@@ -22,21 +22,8 @@ describe('#calcRangeMaxMin',()=>{
     ObjProcesor.Invalid[1].should.be.equal(res.Invalid[1]);
 
   });
-})
-
-/*
-describe('#constructorFunctionality', () => {
-  it ( "Sendig stream to constructor", () => {
-    let string = '{"age": {"type": "int", "min": 18, "max": 150}}';
-    var s = new Readable;
-    s.push(string);
-    s.push(null);
-    let limitProcessor = new LimitProcessor(s, function(result){
-      JSON.stringify(result).should.be.equal('[{"key":"age","MaxMin":{"valid":[18,150],"invalid":[17,151]}}]');
-    })
-  })
 });
-*/
+
 
 describe('#processSringData', () => {
     it("testing string data have min length",()=>{
@@ -181,17 +168,3 @@ describe('#stringGenerateInvalids', () => {
 });
 
 
-/*describe('#Inputs file',()=>{
-it("input is blank return The file path can not be empty or null",()=>{
-expect(function(){ new LimitProcessor('') }).throw('The file path can not be empty or null')
-});
-it("input not exist and return Could not find the file",()=>{
-expect(function(){ new LimitProcessor('notexistfile') }).throw('Could not find the file')
-});
-it("input is a file have bad format return Invalid format",()=>{
-expect(function(){ new LimitProcessor('context-bad-format.json') }).throw('Invalid format')
-});
-it("input is a file have bad format return Invalid format",()=>{
-expect(function(){ new LimitProcessor('context-bad-json.json') }).throw('Invalid format')
-});
-});*/

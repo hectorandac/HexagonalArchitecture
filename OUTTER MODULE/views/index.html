@@ -44,7 +44,7 @@
             </label>
             <textarea class="form-control" rows="15" id="json_context"></textarea>
         </div>
-        <button type="button" onclick="sendValue()" class="btn btn-primary">Submit</button>
+        <button type="button" onclick="sendValue()" class="btn btn-primary" id="submit_btn">Submit</button>
 
         <div style="margin-top: 30px;" id="container"></div>
     </form>
@@ -80,7 +80,11 @@
             dataType: 'json',
             data: $('#json_context').val(),
             success: function (data) {
-                document.getElementById("container").appendChild(renderjson(data));
+                var element = document.createElement('textarea');
+                element.id='raul';
+                element.name='raul'
+                element.value=JSON.stringify(data,null,2);
+                document.getElementById("container").appendChild(element);
             }
         });
     }

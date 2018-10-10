@@ -80,11 +80,7 @@
             dataType: 'json',
             data: $('#json_context').val(),
             success: function (data) {
-                var element = document.createElement('textarea');
-                element.id='raul';
-                element.name='raul'
-                element.value=JSON.stringify(data,null,2);
-                document.getElementById("container").appendChild(element);
+                document.getElementById("container").innerHTML = JSON.stringify(data,null,2);
             }
         });
     }
